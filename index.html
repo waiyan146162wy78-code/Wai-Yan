@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS System & Sales Manager</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+  <!-- Navigation -->
+  <nav class="bg-indigo-600 text-white p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-xl font-bold">POS & Sales Management</h1>
+    <span id="status" class="text-sm bg-indigo-700 px-3 py-1 rounded-full">Connecting...</span>
+  </nav>
+
+  <div class="container mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- Column 1: Item / Course Registration -->
+    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+      <h2 class="text-lg font-semibold mb-4 text-indigo-600">ပစ္စည်း / သင်တန်း အသစ်ထည့်ရန်</h2>
+      <form id="addItemForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">အမည် (Product / Course)</label>
+          <input type="text" id="itemName" required class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-indigo-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">စျေးနှုန်း (MMK)</label>
+          <input type="number" id="itemPrice" required class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-indigo-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">အမျိုးအစား</label>
+          <select id="itemCategory" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-indigo-400 outline-none">
+            <option value="Product">Product (ပစ္စည်း)</option>
+            <option value="Course">Course (သင်တန်း)</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition">
+          သိမ်းဆည်းမည်
+        </button>
+      </form>
+    </div>
+
+    <!-- Column 2: Quick POS / Checkout -->
+    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+      <h2 class="text-lg font-semibold mb-4 text-indigo-600">အရောင်းစာရင်း မှတ်တမ်းတင်ရန်</h2>
+      <form id="checkoutForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">ရွေးချယ်ပါ</label>
+          <select id="selectItem" class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-indigo-400 outline-none" required>
+            <option value="">-- ရွေးချယ်ပါ --</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">အရေအတွက်</label>
+          <input type="number" id="itemQty" value="1" min="1" required class="w-full border rounded-lg p-2 focus:ring-2 focus:ring-indigo-400 outline-none">
+        </div>
+        <button type="submit" class="w-full bg-emerald-600 text-white py-2 rounded-lg font-medium hover:bg-emerald-700 transition">
+          ရောင်းမည် / စာရင်းသွင်းမည်
+        </button>
+      </form>
+    </div>
+
+    <!-- Column 3: Summary / Sales History -->
+    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+      <h2 class="text-lg font-semibold mb-4 text-indigo-600">ယနေ့ အရောင်းမှတ်တမ်း</h2>
+      <div class="overflow-y-auto max-h-64 mb-4">
+        <ul id="salesList" class="divide-y divide-gray-200 text-sm">
+          <li class="py-2 text-gray-500">မှတ်တမ်းများ ရယူနေပါသည်...</li>
+        </ul>
+      </div>
+      <div class="border-t pt-3 flex justify-between font-bold text-lg">
+        <span>စုစုပေါင်း:</span>
+        <span id="totalRevenue" class="text-emerald-600">0 MMK</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ------------------------------------------------------------------------
+    // ၁။ SUPABASE CONFIGURATION
+    // ------------------------------------------------------------------------
+    // Supabase Dashboard > Project Settings > API တွင်ကြည့်၍ ပြောင်းလဲပါ
+    const SUPABASE_URL = "YOUR_SUPABASE_URL_HERE";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY_HERE";
+
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ------------------------------------------------------------------------
+    // ၂။ INITIAL SETUP & FETCH DATA
+    // ------------------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+      if (SUPABASE_URL !== "YOUR_SUPABASE_URL_HERE") {
+        document.getElementById("status").innerText = "Connected";
+        document.getElementById("status").classList.replace("bg-indigo-700", "bg-emerald-500");
+      }
+      loadItems();
+      loadSales();
+    });
+
+    // Items (ပစ္စည်း/သင်တန်း) များကို Supabase မှ ခေါ်ယူခြင်း
+    async function loadItems() {
+      const { data, error } = await supabase.from('items').select('*');
+      if (error) return console.error('Error fetching items:', error);
+
+      const selectItem = document.getElementById("selectItem");
+      selectItem.innerHTML = '<option value="">-- ရွေးချယ်ပါ --</option>';
+
+      data.forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item.id;
+        opt.dataset.price = item.price;
+        opt.dataset.name = item.name;
+        opt.innerText = `${item.name} (${item.price} MMK)`;
+        selectItem.appendChild(opt);
+      });
+    }
+
+    // Sales (အရောင်းစာရင်း) များကို ခေါ်ယူပြီး Total စာရင်းတွက်ခြင်း
+    async function loadSales() {
+      const { data, error } = await supabase.from('sales').select('*, items(name)').order('created_at', { ascending: false });
+      if (error) return console.error('Error fetching sales:', error);
+
+      const salesList = document.getElementById("salesList");
+      salesList.innerHTML = "";
+      let total = 0;
+
+      data.forEach(sale => {
+        const itemTotal = sale.quantity * sale.unit_price;
+        total += itemTotal;
+
+        const li = document.createElement("li");
+        li.className = "py-2 flex justify-between items-center";
+        li.innerHTML = `
+          <div>
+            <p class="font-medium">${sale.items ? sale.items.name : 'Unknown'}</p>
+            <p class="text-xs text-gray-500">${sale.quantity} x ${sale.unit_price} MMK</p>
+          </div>
+          <span class="font-semibold text-gray-700">${itemTotal} MMK</span>
+        `;
+        salesList.appendChild(li);
+      });
+
+      document.getElementById("totalRevenue").innerText = `${total.toLocaleString()} MMK`;
+    }
+
+    // ------------------------------------------------------------------------
+    // ၃။ FORM SUBMISSIONS (CREATE DATA)
+    // ------------------------------------------------------------------------
+
+    // Item/Course အသစ်ထည့်ခြင်း
+    document.getElementById("addItemForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("itemName").value;
+      const price = parseFloat(document.getElementById("itemPrice").value);
+      const category = document.getElementById("itemCategory").value;
+
+      const { error } = await supabase.from('items').insert([{ name, price, category }]);
+      if (error) {
+        alert("Error: " + error.message);
+      } else {
+        alert("အောင်မြင်စွာ သိမ်းဆည်းပြီးပါပြီ!");
+        document.getElementById("addItemForm").reset();
+        loadItems();
+      }
+    });
+
+    // POS ရောင်းချမှု မှတ်တမ်းတင်ခြင်း
+    document.getElementById("checkoutForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const select = document.getElementById("selectItem");
+      const itemId = select.value;
+      const selectedOpt = select.options[select.selectedIndex];
+      const unitPrice = parseFloat(selectedOpt.dataset.price);
+      const quantity = parseInt(document.getElementById("itemQty").value);
+
+      if (!itemId) return;
+
+      const { error } = await supabase.from('sales').insert([
+        { item_id: itemId, quantity: quantity, unit_price: unitPrice }
+      ]);
+
+      if (error) {
+        alert("Error: " + error.message);
+      } else {
+        document.getElementById("checkoutForm").reset();
+        loadSales();
+      }
+    });
+  </script>
+</body>
+</html>
