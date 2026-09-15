@@ -1,0 +1,1460 @@
+```
+<!-- ================= 1. ACTIVATION SCREEN ================= -->
+<div id="activationScreen" class="fixed inset-0 bg-themeBg flex items-center justify-center z-50">
+    <div class="bg-themeCard border border-themeBorder p-8 rounded-2xl shadow-xl w-96 text-center">
+        <div class="text-themeAccent text-4xl mb-3"><i class="fa-solid fa-fingerprint"></i></div>
+        <h2 id="txtActTitle" class="text-2xl font-bold mb-1">FlowPOS System</h2>
+        <p id="txtActSub" class="text-xs text-themeMuted mb-6">စမ်းသပ်ရန် Code: <span class="font-mono font-bold">FLOW-POS-2026</span></p>
+        <input type="text" id="activationInput" placeholder="Activation Code ထည့်ပါ" class="w-full bg-themeBg border border-themeBorder rounded-xl px-4 py-3 mb-4 text-center font-mono uppercase text-sm focus:outline-none focus:border-themeAccent">
+        <button onclick="checkActivation()" id="txtActBtn" class="w-full bg-themeAccent hover:bg-themeAccentHover text-white py-3 rounded-xl font-semibold transition text-sm">စတင်ချိတ်ဆက်မည်</button>
+        <p id="activationError" class="text-red-400 text-xs mt-3 hidden">Activation Code မှားယွင်းနေပါသည်။</p>
+    </div>
+</div>
+
+<!-- ================= 2. LOGIN & SHOP SETUP ================= -->
+<div id="loginScreen" class="fixed inset-0 bg-themeBg flex items-center justify-center z-40 hidden">
+    <div class="bg-themeCard border border-themeBorder p-8 rounded-2xl shadow-xl w-[420px] max-h-[90vh] overflow-y-auto">
+        <div class="text-center mb-6">
+            <div class="text-themeAccent text-3xl mb-1"><i class="fa-solid fa-store"></i></div>
+            <h2 class="text-xl font-bold">FlowPOS Login</h2>
+            <p id="txtLoginSub" class="text-xs text-themeMuted">ဆိုင်အမျိုးအစားနှင့် အကောင့်ရွေးချယ်ပါ</p>
+        </div>
+        
+        <div class="space-y-4">
+            <div>
+                <label id="txtShopTypeLabel" class="block text-xs font-medium text-themeMuted mb-1">ဆိုင်အမျိုးအစား</label>
+                <select id="shopTypeSelect" class="w-full bg-themeBg border border-themeBorder rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-themeAccent">
+                    <option value="money_transfer">💸 ငွေလွှဲ / ငွေထုတ်ဆိုင် (KPay / Wave / Thai Baht)</option>
+                    <option value="general_store">🔎 စတိုးဆိုင်များ (General Store)</option>
+                    <option value="grocery">🔎 ကုန်မျိုးစုံရောင်းဝယ်ရေးဆိုင်များ (Grocery)</option>
+                    <option value="consumer_goods">🔎 လူသုံးကုန်ပစ္စည်းအရောင်းဆိုင်များ (Consumer Goods)</option>
+                    <option value="clothes">🔎 အဝတ်အထည်ဆိုင် (Clothing)</option>
+                    <option value="fashion">🔎 ဖက်ရှင်ပစ္စည်းဆိုင် (Fashion)</option>
+                    <option value="fancy">🔎 ဖန်စီပစ္စည်းဆိုင် (Fancy Store)</option>
+                    <option value="cosmetics">🔎 အလှကုန် / Cosmetic ဆိုင်များ</option>
+                    <option value="shoes">🔎 ဖိနပ်ဆိုင် (Footwear)</option>
+                    <option value="glasses">🔎 မျက်မှန်ဆိုင် (Eyewear)</option>
+                    <option value="baby">🔎 ကလေးပစ္စည်းဆိုင် (Baby Store)</option>
+                    <option value="sports">🔎 အားကစားပစ္စည်းဆိုင် (Sports Store)</option>
+                    <option value="automotive">🔎 ယာဥ်နှင့်ယာဥ်အပိုပစ္စည်းအရောင်းဆိုင်များ (Automotive)</option>
+                    <option value="computer">🔎 ကွန်ပျူတာနှင့် ဆက်စပ်ပစ္စည်းနဲ့ ပြုပြင်ရေးဆိုင်များ (Computer & IT)</option>
+                    <option value="mobile">🔎 မိုဘိုင်းဖုန်းနှင့် ဆက်စပ်ပစ္စည်းနဲ့ ပြုပြင်ရေးဆိုင်များ (Mobile & Accessories)</option>
+                    <option value="electronics">🔎 လျှပ်စစ်ပစ္စည်းဆိုင်များ (Electronics)</option>
+                    <option value="hardware">🔎 ကုန်မာ နှင့် အိမ်ဆောက်ပစ္စည်းဆိုင်များ (Hardware)</option>
+                    <option value="home_decor">🔎 အိမ်အလှဆင်ပစ္စည်းအရောင်းဆိုင်များ (Home Decor)</option>
+                    <option value="furniture">🔎 ပရိဘောဂပစ္စည်းအရောင်းဆိုင်များ (Furniture)</option>
+                    <option value="stationery">🔎 စာရေးကိရိယာဆိုင်များ (Stationery)</option>
+                    <option value="company">🔎 Company & Office</option>
+                    <option value="school">🔎 School & Training Center</option>
+                    <option value="organization">🔎 Organization</option>
+                    <option value="other">🔎 Other</option>
+                </select>
+            </div>
+            <div>
+                <label id="txtStaffLabel" class="block text-xs font-medium text-themeMuted mb-1">ဝန်ထမ်းအမည်</label>
+                <select id="loginUserSelect" onchange="onUserSelectChange()" class="w-full bg-themeBg border border-themeBorder rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-themeAccent mb-1.5">
+                    <option value="admin">Admin (ပင်မအကောင့်)</option>
+                </select>
+                <input type="text" id="loginUser" value="admin" placeholder="ဝန်ထမ်းအမည်" class="w-full bg-themeBg border border-themeBorder rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-themeAccent">
+            </div>
+            <div>
+                <label id="txtCodeLabel" class="block text-xs font-medium text-themeMuted mb-1">Login Code</label>
+                <input type="password" id="loginPass" value="12345" placeholder="Login Code" class="w-full bg-themeBg border border-themeBorder rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-themeAccent font-mono">
+            </div>
+            <button onclick="checkLogin()" id="txtLoginBtn" class="w-full bg-themeAccent hover:bg-themeAccentHover text-white py-3 rounded-xl font-semibold transition text-sm">စတင်အသုံးပြုမည်</button>
+            <div class="text-center mt-2">
+                <button onclick="returnToActivation()" id="txtBackToActBtn" class="text-xs text-themeAccent hover:underline">← Activation Code သို့ ပြန်သွားမည်</button>
+            </div>
+            <p id="loginError" class="text-red-400 text-xs text-center hidden">အချက်အလက် မှားယွင်းနေပါသည်။</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================= 3. MAIN POS DASHBOARD ================= -->
+<div id="mainDashboard" class="flex h-screen overflow-hidden hidden">
+    
+    <!-- Sidebar with Distinct Item Colors -->
+    <aside class="w-64 bg-themeCard border-r border-themeBorder hidden md:flex flex-col justify-between">
+        <div>
+            <div class="p-5 font-bold tracking-wider border-b border-themeBorder flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-themeAccent/20 text-themeAccent flex items-center justify-center"><i class="fa-solid fa-bolt"></i></div>
+                <span id="sidebarShopName" class="truncate text-sm">FlowPOS</span>
+            </div>
+            <nav class="mt-4 flex flex-col gap-2 px-3">
+                <button onclick="switchTab('pos')" id="menu-pos" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-white font-semibold transition text-left text-xs shadow-sm bg-emerald-600"><i class="fa-solid fa-cash-register w-4"></i> <span class="nav-pos-text">အရောင်းပိုင်း (POS)</span></button>
+                <button onclick="switchTab('products')" id="menu-products" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-white font-semibold transition text-left text-xs shadow-sm bg-blue-600"><i class="fa-solid fa-boxes-stacked w-4"></i> <span class="nav-prod-text">ပစ္စည်းစာရင်း</span></button>
+                <button onclick="switchTab('purchases')" id="menu-purchases" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-white font-semibold transition text-left text-xs shadow-sm bg-amber-600"><i class="fa-solid fa-cart-shopping w-4"></i> <span class="nav-pur-text">အဝယ်စာရင်း</span></button>
+                <button onclick="switchTab('debts')" id="menu-debts" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-white font-semibold transition text-left text-xs shadow-sm bg-purple-600"><i class="fa-solid fa-book-bookmark w-4"></i> <span class="nav-debt-text">အကြွေးစာရင်း</span></button>
+                <button onclick="switchTab('profit')" id="menu-profit" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-white font-semibold transition text-left text-xs shadow-sm bg-rose-600"><i class="fa-solid fa-chart-line w-4"></i> <span class="nav-prof-text">အမြတ်အရှုံး စာရင်း</span></button>
+                <button onclick="switchTab('settings')" id="menu-settings" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-white font-semibold transition text-left text-xs shadow-sm bg-cyan-600"><i class="fa-solid fa-gear w-4"></i> <span class="nav-set-text">ဆက်တင်များ</span></button>
+                <button onclick="switchTab('about')" id="menu-about" class="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-white font-semibold transition text-left text-xs shadow-sm bg-indigo-600"><i class="fa-solid fa-circle-info w-4"></i> <span class="nav-abt-text">အကြောင်းအရာ</span></button>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-themeBorder flex justify-between items-center text-xs">
+            <div>
+                <span id="currentLoginUserLabel" class="text-themeAccent font-semibold">Admin</span>
+            </div>
+            <button onclick="logout()" id="txtLogoutBtn" class="text-red-400 hover:text-red-300 bg-themeBg px-3 py-1.5 rounded-lg border border-themeBorder">ထွက်ရန်</button>
+        </div>
+    </aside>
+
+    <!-- Main Body -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        
+        <header class="bg-themeCard border-b border-themeBorder h-16 flex items-center justify-between px-6 z-10 shrink-0">
+            <div class="flex items-center gap-3">
+                <h1 id="pageTitle" class="text-base font-bold">အရောင်းဆိုင် စီမံခန့်ခွဲမှုစနစ် (POS)</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="headerShopBadge" class="bg-themeAccent/10 text-themeAccent text-xs px-3 py-1.5 rounded-xl font-semibold border border-themeAccent/20 hidden sm:inline-block">FlowPOS System</span>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6">
+            
+            <!-- TAB 1: POS SCREEN -->
+            <div id="tab-pos" class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+                <div class="lg:col-span-2 flex flex-col gap-4">
+                    <div class="bg-themeCard border border-themeBorder p-5 rounded-2xl shadow-sm">
+                        <h3 id="productSectionTitle" class="font-semibold text-xs text-themeMuted mb-4 uppercase tracking-wider">ဝန်ဆောင်မှုများ</h3>
+                        <div id="posMainArea"></div>
+                    </div>
+                </div>
+
+                <div class="bg-themeCard border border-themeBorder rounded-2xl shadow-sm flex flex-col justify-between p-5 h-full">
+                    <div id="printableVoucherSection" class="bg-themeCard">
+                        <div class="border-b border-themeBorder pb-4 mb-4 text-center flex flex-col items-center">
+                            <div id="voucherLogoContainer" class="mb-1">
+                                <img id="voucherLogoImg" src="" class="h-12 w-12 object-cover rounded-full border border-themeBorder hidden mx-auto" alt="Logo">
+                            </div>
+                            <h2 id="voucherShopName" class="font-bold text-sm">FlowPOS ဆိုင်</h2>
+                            <p id="voucherShopPhone" class="text-xs text-themeMuted mt-0.5">ရန်ကုန်မြို့၊ ဖုန်း - 09123456789</p>
+                        </div>
+                        <h3 id="txtVoucherHeader" class="font-semibold text-xs text-themeMuted mb-2 uppercase tracking-wider">လက်ရှိဘောက်ချာ</h3>
+                        <div class="overflow-y-auto max-h-52 border border-themeBorder rounded-xl mb-3 p-1">
+                            <table class="w-full text-left text-xs">
+                                <thead class="text-themeMuted border-b border-themeBorder">
+                                    <tr>
+                                        <th id="thColName" class="p-2 font-medium">အမည်</th>
+                                        <th id="thColQty" class="p-2 text-center font-medium">ခုရေ</th>
+                                        <th id="thColPrice" class="p-2 text-right font-medium">သင့်ငွေ</th>
+                                        <th id="thColDel" class="p-2 text-center no-print">ဖျက်</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cartTableBody" class="divide-y divide-themeBorder">
+                                    <tr><td colspan="4" class="p-4 text-center text-themeMuted">ပစ္စည်းများ မရွေးရသေးပါ</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="space-y-1.5 text-sm border-t border-themeBorder pt-3 mb-4">
+                            <div class="flex justify-between font-bold text-base">
+                                <span id="txtGrandTotalLabel">ကျသင့်ငွေ:</span>
+                                <div class="text-right">
+                                    <span id="grandTotalMMK" class="text-themeAccent block">0 Ks</span>
+                                    <span id="grandTotalTHB" class="text-xs opacity-75 block">0 THB</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="clearCart()" id="txtClearBtn" class="bg-themeBg border border-themeBorder hover:opacity-80 py-2.5 rounded-xl font-medium text-xs transition">ဖျက်မည်</button>
+                            <button onclick="saveVoucherImage()" id="txtSaveImgBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl font-medium text-xs transition"><i class="fa-solid fa-download"></i> ပုံသိမ်း</button>
+                            <button onclick="printVoucher()" id="txtPrintBtn" class="bg-themeAccent hover:bg-themeAccentHover text-white py-2.5 rounded-xl font-medium text-xs transition"><i class="fa-solid fa-print"></i> ပရင့်</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: PRODUCTS MANAGEMENT -->
+            <div id="tab-products" class="bg-themeCard border border-themeBorder p-6 rounded-2xl shadow-sm hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="txtProdMgmtTitle" class="text-base font-bold">ဝန်ဆောင်မှု / ပစ္စည်းစာရင်း စီမံခန့်ခွဲမှု</h2>
+                    <button onclick="openAddProductModal()" id="txtAddProdBtn" class="bg-themeAccent hover:bg-themeAccentHover text-white px-4 py-2 rounded-xl text-xs font-semibold transition"><i class="fa-solid fa-plus"></i> အသစ်ထည့်မည်</button>
+                </div>
+                <div id="productManagementContent" class="text-xs overflow-x-auto"></div>
+            </div>
+
+            <!-- TAB 3: PURCHASES -->
+            <div id="tab-purchases" class="bg-themeCard border border-themeBorder p-6 rounded-2xl shadow-sm hidden">
+                <h2 id="txtPurchaseTitle" class="text-base font-bold mb-4">အဝယ်စာရင်း</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                    <input type="text" id="purchaseItem" placeholder="ဝယ်ယူသည့် ပစ္စည်းအမည်" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard focus:outline-none focus:border-themeAccent">
+                    <input type="number" id="purchaseQty" placeholder="အရေအတွက်" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard focus:outline-none focus:border-themeAccent">
+                    <input type="number" id="purchasePrice" placeholder="စုစုပေါင်းကျသင့်ငွေ (ကျပ်)" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard focus:outline-none focus:border-themeAccent">
+                    <button onclick="addPurchase()" id="txtSavePurchaseBtn" class="col-span-full bg-themeAccent hover:bg-themeAccentHover text-white py-2.5 rounded-xl text-xs font-semibold transition">အဝယ်စာရင်း မှတ်တမ်းတင်မည်</button>
+                </div>
+                <div id="purchaseListContainer"></div>
+            </div>
+
+            <!-- TAB 4: DEBTS -->
+            <div id="tab-debts" class="bg-themeCard border border-themeBorder p-6 rounded-2xl shadow-sm hidden">
+                <h2 id="txtDebtTitle" class="text-base font-bold mb-4">အကြွေးစာရင်း</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4 bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                    <input type="text" id="debtorName" placeholder="ဖောက်သည်အမည်" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard focus:outline-none focus:border-themeAccent">
+                    <input type="number" id="debtAmount" placeholder="အကြွေးပမာဏ (ကျပ်)" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard focus:outline-none focus:border-themeAccent">
+                    <input type="text" id="debtPhone" placeholder="ဖုန်းနံပါတ်" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard focus:outline-none focus:border-themeAccent">
+                    <button onclick="addDebt()" id="txtSaveDebtBtn" class="col-span-full bg-themeAccent hover:bg-themeAccentHover text-white py-2.5 rounded-xl text-xs font-semibold transition">အကြွေးစာရင်း သိမ်းဆည်းမည်</button>
+                </div>
+                <div id="debtListContainer"></div>
+            </div>
+
+            <!-- TAB 5: PROFIT & LOSS -->
+            <div id="tab-profit" class="bg-themeCard border border-themeBorder p-6 rounded-2xl shadow-sm hidden space-y-6">
+                <h2 id="txtProfitTitle" class="text-base font-bold mb-4">အမြတ်အရှုံး စာရင်းချုပ်</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-themeBg border border-themeBorder p-5 rounded-2xl">
+                        <p id="txtTotalSalesLabel" class="text-xs text-themeMuted">စုစုပေါင်း အရောင်း ဝင်ငွေ</p>
+                        <p id="profitTotalSalesMMK" class="text-lg font-bold text-themeAccent mt-1">0 Ks</p>
+                        <p id="profitTotalSalesTHB" class="text-xs text-themeMuted">0 THB</p>
+                    </div>
+                    <div class="bg-themeBg border border-themeBorder p-5 rounded-2xl">
+                        <p id="txtTotalPurchaseLabel" class="text-xs text-themeMuted">စုစုပေါင်း အဝယ် စရိတ်</p>
+                        <p id="profitTotalPurchasesMMK" class="text-lg font-bold text-red-400 mt-1">0 Ks</p>
+                        <p id="profitTotalPurchasesTHB" class="text-xs text-themeMuted">0 THB</p>
+                    </div>
+                    <div class="bg-themeBg border border-themeBorder p-5 rounded-2xl">
+                        <p id="txtNetProfitLabel" class="text-xs text-themeMuted">သန့်စင်အမြတ်ငွေ</p>
+                        <p id="netProfitValMMK" class="text-lg font-bold text-blue-400 mt-1">0 Ks</p>
+                        <p id="netProfitValTHB" class="text-xs text-themeMuted">0 THB</p>
+                    </div>
+                </div>
+
+                <!-- Detailed Tables for Profit & Loss Summary -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4 border-t border-themeBorder">
+                    <div>
+                        <h3 class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-list-check text-themeAccent"></i> အရောင်း မှတ်တမ်း အသေးစိတ်</h3>
+                        <div id="detailedSalesTableContainer" class="overflow-x-auto text-xs"></div>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-cart-flatbed text-themeAccent"></i> အဝယ် စရိတ် မှတ်တမ်း အသေးစိတ်</h3>
+                        <div id="detailedPurchasesTableContainer" class="overflow-x-auto text-xs"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: SETTINGS -->
+            <div id="tab-settings" class="bg-themeCard border border-themeBorder p-6 rounded-2xl shadow-sm hidden space-y-6">
+                <h2 id="txtSettingsTitle" class="text-base font-bold border-b border-themeBorder pb-3">ဆက်တင်များ (Settings)</h2>
+                
+                <!-- Creator Only Section: Supabase Cloud Sync & Activation Code Manager -->
+                <div id="creatorOnlySettingsSection" class="space-y-6">
+                    <!-- Supabase Cloud Sync Settings -->
+                    <div class="bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                        <h3 class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-cloud text-themeAccent"></i> Supabase Cloud Sync (Online Sync)</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="block text-xs text-themeMuted mb-1">Supabase URL</label>
+                                <input type="text" id="supabaseUrlInput" placeholder="[https://xyz.supabase.co](https://xyz.supabase.co)" class="w-full border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard font-mono">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-themeMuted mb-1">Supabase Anon Key</label>
+                                <input type="password" id="supabaseKeyInput" placeholder="eyJhbGci..." class="w-full border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard font-mono">
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="saveSupabaseConfig()" class="bg-themeAccent hover:bg-themeAccentHover text-white px-4 py-2 rounded-xl text-xs font-semibold transition">ချိတ်ဆက်မှု သိမ်းမည်</button>
+                            <button onclick="syncDataToCloud()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-semibold transition"><i class="fa-solid fa-rotate"></i> Online သို့ Sync တင်မည်</button>
+                        </div>
+                    </div>
+
+                    <!-- Creator Activation Code Manager -->
+                    <div class="bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                        <h3 class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-key text-themeAccent"></i> Activation Code စီမံခန့်ခွဲမှု (Creator Panel)</h3>
+                        <p class="text-xs text-themeMuted mb-3">ဖန်တီးသူအတွက် သီးသန့်နှင့် ဝယ်ယူသူများအတွက် Activation Code များကို ထည့်သွင်းခြင်း၊ ဖျက်ခြင်းနှင့် စီမံခန့်ခွဲခြင်း။</p>
+                        
+                        <!-- Add Code Form -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                            <input type="text" id="newActivationCodeInput" placeholder="ဥပမာ - FLOW-CUST-9999" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard font-mono uppercase">
+                            <select id="newActivationTypeInput" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard">
+                                <option value="buyer">ဝယ်ယူသူ (Buyer Code)</option>
+                                <option value="creator">ဖန်တီးသူ (Creator Code)</option>
+                            </select>
+                            <button onclick="generateAndSaveActivationCode()" class="bg-themeAccent hover:bg-themeAccentHover text-white py-2 rounded-xl text-xs font-semibold transition">Activation Code အသစ်ထုတ်ပေးမည်</button>
+                        </div>
+                        
+                        <!-- List of Managed Codes -->
+                        <div class="mt-4 overflow-x-auto text-xs">
+                            <table class="w-full text-left border border-themeBorder rounded-xl overflow-hidden">
+                                <thead class="bg-themeBg text-themeMuted border-b border-themeBorder">
+                                    <tr>
+                                        <th class="p-2.5">Activation Code</th>
+                                        <th class="p-2.5">အမျိုးအစား (Type)</th>
+                                        <th class="p-2.5 text-center">လုပ်ဆောင်ချက် (Action)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="generatedCodesTableBody" class="divide-y divide-themeBorder">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theme Color Changer Setting -->
+                <div class="bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                    <h3 id="txtThemeChangeHeading" class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-palette text-themeAccent"></i> အပြင်အဆင် ကာလာ ရွေးချယ်ရန် (Theme Color)</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <button onclick="changeTheme('neon')" class="p-3 rounded-xl border border-themeBorder bg-[#0f172a] text-[#10b981] font-bold text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-bolt"></i> Neon Dark</button>
+                        <button onclick="changeTheme('cyberpunk')" class="p-3 rounded-xl border border-themeBorder bg-[#09090b] text-[#f43f5e] font-bold text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-fire"></i> Cyberpunk</button>
+                        <button onclick="changeTheme('sunset')" class="p-3 rounded-xl border border-themeBorder bg-[#18122B] text-[#ff8fb1] font-bold text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-city"></i> Sunset Purple</button>
+                        <button onclick="changeTheme('emerald')" class="p-3 rounded-xl border border-themeBorder bg-[#f8fafc] text-[#0d9488] font-bold text-xs flex items-center justify-center gap-2"><i class="fa-solid fa-leaf"></i> Clean Light</button>
+                    </div>
+                </div>
+
+                <!-- Language Switcher Setting -->
+                <div class="bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                    <h3 id="txtLangChangeHeading" class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-language text-themeAccent"></i> ဘာသာစကား ရွေးချယ်ရန် (Language)</h3>
+                    <div class="flex gap-3">
+                        <button onclick="switchLanguage('my')" id="langBtnMyanmar" class="px-4 py-2 rounded-xl text-xs font-semibold bg-themeAccent text-white border border-themeBorder">မြန်မာ</button>
+                        <button onclick="switchLanguage('en')" id="langBtnEnglish" class="px-4 py-2 rounded-xl text-xs font-semibold bg-themeCard text-themeMuted border border-themeBorder">English</button>
+                    </div>
+                </div>
+
+                <div class="bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                    <h3 id="txtShopInfoHeading" class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-store text-themeAccent"></i> ဆိုင်အချက်အလက်နှင့် လိုဂို</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                        <div>
+                            <label id="txtSettingShopNameLabel" class="block text-xs text-themeMuted mb-1">ဆိုင်အမည်</label>
+                            <input type="text" id="settingShopName" class="w-full border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard">
+                        </div>
+                        <div>
+                            <label id="txtSettingShopPhoneLabel" class="block text-xs text-themeMuted mb-1">ဖုန်းနံပါတ် / လိပ်စာ</label>
+                            <input type="text" id="settingShopPhone" class="w-full border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard" value="ရန်ကုန်မြို့၊ ဖုန်း - 09123456789">
+                        </div>
+                        <div>
+                            <label id="txtSettingShopLogoLabel" class="block text-xs text-themeMuted mb-1">ဆိုင်လိုဂို ပုံတင်ရန်</label>
+                            <input type="file" id="settingShopLogo" accept="image/*" class="w-full border border-themeBorder rounded-xl px-2 py-1.5 text-xs bg-themeCard">
+                        </div>
+                    </div>
+                    <button onclick="saveShopInfo()" id="txtSaveShopInfoBtn" class="mt-3 bg-themeAccent hover:bg-themeAccentHover text-white px-4 py-2 rounded-xl text-xs font-semibold transition">ဆိုင်အချက်အလက် သိမ်းမည်</button>
+                </div>
+
+                <div class="bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                    <h3 id="txtExchangeHeading" class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-money-bill-transfer text-themeAccent"></i> ငွေလဲနှုန်း (MMK & THB)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label id="txtExchangeRateLabel" class="block text-xs text-themeMuted mb-1">၁ ထိုင်းဘတ် (THB) လဲလှယ်နှုန်း (Ks)</label>
+                            <input type="number" id="rateTHB" value="125" class="w-full border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard">
+                        </div>
+                    </div>
+                    <button onclick="saveExchangeRate()" id="txtSaveExchangeBtn" class="mt-3 bg-themeAccent hover:bg-themeAccentHover text-white px-4 py-2 rounded-xl text-xs font-semibold transition">လဲလှယ်နှုန်း သိမ်းမည်</button>
+                </div>
+
+                <div class="bg-themeBg p-4 rounded-2xl border border-themeBorder">
+                    <h3 id="txtEmpHeading" class="font-semibold text-xs mb-3 text-themeMuted uppercase"><i class="fa-solid fa-users text-themeAccent"></i> ဝန်ထမ်းအသစ် ထည့်သွင်းရန်</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-3">
+                        <input type="text" id="empName" placeholder="ဝန်ထမ်းအမည်" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard">
+                        <input type="text" id="empRole" placeholder="ရာထူး (ဥပမာ - ငွေစာရင်း)" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard">
+                        <input type="text" id="empPhone" placeholder="ဖုန်းနံပါတ်" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard">
+                        <input type="text" id="empCode" placeholder="Login Code" class="border border-themeBorder rounded-xl px-3 py-2 text-xs bg-themeCard font-mono">
+                    </div>
+                    <button onclick="addEmployee()" id="txtSaveEmpBtn" class="bg-themeAccent hover:bg-themeAccentHover text-white px-4 py-2 rounded-xl text-xs font-semibold transition">ဝန်ထမ်းစာရင်း ထည့်မည်</button>
+                    <div id="employeeListContainer" class="mt-4"></div>
+                </div>
+            </div>
+
+            <!-- TAB 7: ABOUT -->
+            <div id="tab-about" class="space-y-6 max-w-3xl mx-auto">
+                <div class="flex flex-col items-center justify-center text-center py-4">
+                    <div class="w-12 h-12 rounded-2xl bg-themeAccent/20 text-themeAccent flex items-center justify-center text-lg mb-3">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h2 class="text-lg font-bold">FlowPOS System & All-In-One Services</h2>
+                    <p class="text-xs text-themeMuted mt-1">Version 3.1.0 (POS + Creator Control + Supabase Cloud Sync)</p>
+                </div>
+
+                <div class="bg-themeCard border border-themeBorder rounded-2xl p-5 text-xs leading-relaxed text-themeMuted">
+                    FlowPOS သည် အသေးစားအလတ်စား စားသောက်ဆိုင်၊ စားသောက်ဆိုင်၊ အရောင်းဆိုင်၊ ကုန်စုံဆိုင်၊ ဖုန်းဆိုင်၊ ကွန်ပျူတာဆိုင်၊ ရိုဆိုင်များ၊ ဌာနဆိုင်များ၊ ကုမ္ပဏီများနှင့် သင်တန်းကျောင်းများအတွက် နေ့စဥ်ငွေကြေးစီမံခန့်ခွဲမှု၊ ငွေသွင်းငွေထုတ်နှင့် ဆားဗစ်စစာရင်းများကို တစ်နေရာတည်းတွင် အသုံးပြုနိုင်သော စနစ်တစ်ခု ဖြစ်ပါသည်။
+                </div>
+
+                <div class="bg-themeCard border border-themeBorder rounded-2xl p-5 space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-themeAccent flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> ဆော့ဖ်ဝဲ အသုံးပြုနည်း လမ်းညွှန် (Step-by-Step Guide)
+                    </h3>
+                    <div class="space-y-3 text-xs text-themeMuted">
+                        <div class="bg-themeBg p-3 rounded-xl border border-themeBorder">
+                            <p class="font-bold text-themeText mb-1">၁။ ဆော့ဖ်ဝဲ စတင်ချိတ်ဆက်ခြင်း (Shop ID Activation)</p>
+                            <p>ဆော့ဖ်ဝဲ ပထမဆုံးဝင်ချိန်တွင် ဖန်တီးသူထံမှ ရရှိသော Activation Code ကို ရိုက်ထည့်ပြီး "ချိတ်ဆက်မည်" ကို နှိပ်ပါ။ (ဖန်တီးသူ သို့မဟုတ် ဝယ်ယူသူ အဆင့်အလိုက် သီးသန့်ခွဲခြားပေးထားပါသည်။)</p>
+                        </div>
+                        <div class="bg-themeBg p-3 rounded-xl border border-themeBorder">
+                            <p class="font-bold text-themeText mb-1">၂။ ဝန်ထမ်းအကောင့်ဝင်ခြင်း (Login)</p>
+                            <p>မိမိအမည် (Cashier သို့မဟုတ် Admin) ကို ရွေးချယ်ပြီး 4 လုံးပါ Login Code နံပါတ်ကို ရိုက်ထည့်၍ အကောင့်ဝင်ပါ။</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-themeCard border border-themeBorder rounded-2xl p-5 space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-themeAccent flex items-center gap-2">
+                        <i class="fa-solid fa-circle-question"></i> မေးခွန်းများနှင့် အကြံပြုချက်များ မေးမြန်းရန် (Viber Q&A)
+                    </h3>
+                    <p class="text-xs text-themeMuted">ဆော့ဖ်ဝဲအသုံးပြုရာတွင် သိလိုသည်များကို မေးမြန်းပါက တိုက်ရိုက် Viber (09-754401003) သို့ ပေးပို့နိုင်ပါသည်။</p>
+                    <div class="space-y-2">
+                        <textarea id="qaInput" rows="3" placeholder="သင့်၏ မေးခွန်း သို့မဟုတ် အကြံပြုချက်ကို ဤနေရာတွင် ရေးပါ..." class="w-full bg-themeBg border border-themeBorder rounded-xl p-3 text-xs focus:outline-none focus:border-themeAccent text-themeText"></textarea>
+                        <button onclick="submitQA()" class="w-full bg-themeAccent hover:bg-themeAccentHover text-white py-2.5 rounded-xl text-xs font-semibold transition">Viber သို့ မေးခွန်း ပေးပို့မည်</button>
+                    </div>
+                </div>
+
+                <div class="bg-themeCard border border-themeBorder rounded-2xl p-5 space-y-2">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-themeAccent flex items-center gap-2">
+                        <i class="fa-solid fa-user-shield"></i> ဖန်တီးသူအကြောင်း
+                    </h3>
+                    <div class="text-xs text-themeMuted space-y-1">
+                        <p>ဖန်တီးသူ / တာဝန်ခံ: <strong class="text-themeText">Wai Yan Htun</strong></p>
+                        <p>Viber ဆက်သွယ်ရန်: <strong class="text-themeText">09-754401003</strong></p>
+                        <p>လုပ်ငန်းဆောင်ရွက်ချက်: သင်တန်းကျောင်းများနှင့် လုပ်ငန်းသုံးဆော့ဖ်ဝဲ အလိုအလျောက်စနစ်များ ဖန်တီးခြင်း။</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<!-- MODAL: ADD NEW PRODUCT -->
+<div id="addProductModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+    <div class="bg-themeCard border border-themeBorder p-6 rounded-2xl w-96 shadow-2xl">
+        <h3 id="txtModalTitle" class="font-bold text-sm mb-4">ပစ္စည်းအသစ် ထည့်သွင်းရန်</h3>
+        <div class="space-y-3">
+            <input type="text" id="newProdName" placeholder="အမည် (ဥပမာ - KPay ဝန်ဆောင်ခ)" class="w-full bg-themeBg border border-themeBorder rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-themeAccent">
+            <input type="number" id="newProdPrice" placeholder="ရောင်းဈေး (ကျပ်)" class="w-full bg-themeBg border border-themeBorder rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-themeAccent">
+            <input type="number" id="newProdStock" placeholder="လက်ကျန်" class="w-full bg-themeBg border border-themeBorder rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-themeAccent">
+            <div>
+                <label id="txtNewProdImgLabel" class="block text-xs text-themeMuted mb-1">ပစ္စည်းပုံတင်ရန် (Image Upload)</label>
+                <input type="file" id="newProdImg" accept="image/*" class="w-full border border-themeBorder rounded-xl px-2 py-1.5 text-xs bg-themeBg">
+            </div>
+        </div>
+        <div class="flex justify-end gap-2 mt-5">
+            <button onclick="closeAddProductModal()" id="txtModalClose" class="bg-themeBg border border-themeBorder px-4 py-2 rounded-xl text-xs">ပိတ်မည်</button>
+            <button onclick="saveNewProduct()" id="txtModalSave" class="bg-themeAccent hover:bg-themeAccentHover text-white px-4 py-2 rounded-xl text-xs font-semibold">သိမ်းမည်</button>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Logic -->
+<script>
+    let currentLanguage = 'my';
+
+    const translations = {
+        my: {
+            actTitle: "FlowPOS System",
+            actSub: "စမ်းသပ်ရန် Code: FLOW-POS-2026",
+            actInputPlace: "Activation Code ထည့်ပါ",
+            actBtn: "စတင်ချိတ်ဆက်မည်",
+            loginSub: "ဆိုင်အမျိုးအစားနှင့် အကောင့်ရွေးချယ်ပါ",
+            shopTypeLabel: "ဆိုင်အမျိုးအစား",
+            staffLabel: "ဝန်ထမ်းအမည်",
+            codeLabel: "Login Code",
+            loginBtn: "စတင်အသုံးပြုမည်",
+            backToActBtn: "← Activation Code သို့ ပြန်သွားမည်",
+            navPos: "အရောင်းပိုင်း (POS)",
+            navProd: "ပစ္စည်းစာရင်း",
+            navPur: "အဝယ်စာရင်း",
+            navDebt: "အကြွေးစာရင်း",
+            navProf: "အမြတ်အရှုံး စာရင်း",
+            navSet: "ဆက်တင်များ",
+            navAbt: "အကြောင်းအရာ",
+            logoutBtn: "ထွက်ရန်",
+            pageTitlePos: "အရောင်းဆိုင် စီမံခန့်ခွဲမှုစနစ် (POS)",
+            pageTitleProd: "ဝန်ဆောင်မှု / ပစ္စည်းစာရင်း စီမံခန့်ခွဲမှု",
+            pageTitlePur: "အဝယ်စာရင်း စီမံခန့်ခွဲမှု",
+            pageTitleDebt: "အကြွေးစာရင်း စီမံခန့်ခွဲမှု",
+            pageTitleProf: "အမြတ်အရှုံး စာရင်းချုပ်",
+            pageTitleSet: "ဆက်တင်များ",
+            pageTitleAbt: "အကြောင်းအရာ",
+            voucherHeader: "လက်ရှိဘောက်ချာ",
+            colName: "အမည်",
+            colQty: "ခုရေ",
+            colPrice: "သင့်ငွေ",
+            colDel: "ဖျက်",
+            grandTotal: "ကျသင့်ငွေ:",
+            clearBtn: "ဖျက်မည်",
+            saveImgBtn: "ပုံသိမ်း",
+            printBtn: "ပရင့်",
+            prodMgmtTitle: "ဝန်ဆောင်မှု / ပစ္စည်းစာရင်း စီမံခန့်ခွဲမှု",
+            addProdBtn: "အသစ်ထည့်မည်",
+            purchaseTitle: "အဝယ်စာရင်း",
+            purchaseItemPlace: "ဝယ်ယူသည့် ပစ္စည်းအမည်",
+            purchaseQtyPlace: "အရေအတွက်",
+            purchasePricePlace: "စုစုပေါင်းကျသင့်ငွေ (ကျပ်)",
+            savePurchaseBtn: "အဝယ်စာရင်း မှတ်တမ်းတင်မည်",
+            debtTitle: "အကြွေးစာရင်း",
+            debtorNamePlace: "ဖောက်သည်အမည်",
+            debtAmountPlace: "အကြွေးပမာဏ (ကျပ်)",
+            debtPhonePlace: "ဖုန်းနံပါတ်",
+            saveDebtBtn: "အကြွေးစာရင်း သိမ်းဆည်းမည်",
+            profitTitle: "အမြတ်အရှုံး စာရင်းချုပ်",
+            totalSalesLabel: "စုစုပေါင်း အရောင်း ဝင်ငွေ",
+            totalPurchaseLabel: "စုစုပေါင်း အဝယ် စရိတ်",
+            netProfitLabel: "သန့်စင်အမြတ်ငွေ",
+            settingsTitle: "ဆက်တင်များ (Settings)",
+            themeHeading: "အပြင်အဆင် ကာလာ ရွေးချယ်ရန် (Theme Color)",
+            langHeading: "ဘာသာစကား ရွေးချယ်ရန် (Language)",
+            shopInfoHeading: "ဆိုင်အချက်အလက်နှင့် လိုဂို",
+            setShopNameLabel: "ဆိုင်အမည်",
+            setShopPhoneLabel: "ဖုန်းနံပါတ် / လိပ်စာ",
+            setShopLogoLabel: "ဆိုင်လိုဂို ပုံတင်ရန်",
+            saveShopInfoBtn: "ဆိုင်အချက်အလက် သိမ်းမည်",
+            exchangeHeading: "ငွေလဲနှုန်း (MMK & THB)",
+            exchangeRateLabel: "၁ ထိုင်းဘတ် (THB) လဲလှယ်နှုန်း (Ks)",
+            saveExchangeBtn: "လဲလှယ်နှုန်း သိမ်းမည်",
+            empHeading: "ဝန်ထမ်းအသစ် ထည့်သွင်းရန်",
+            empNamePlace: "ဝန်ထမ်းအမည်",
+            empRolePlace: "ရာထူး (ဥပမာ - ငွေစာရင်း)",
+            empPhonePlace: "ဖုန်းနံပါတ်",
+            empCodePlace: "Login Code",
+            saveEmpBtn: "ဝန်ထမ်းစာရင်း ထည့်မည်",
+            modalTitle: "ပစ္စည်းအသစ် ထည့်သွင်းရန်",
+            modalNamePlace: "အမည် (ဥပမာ - KPay ဝန်ဆောင်ခ)",
+            modalPricePlace: "ရောင်းဈေး (ကျပ်)",
+            modalStockPlace: "လက်ကျန်",
+            newProdImgLabel: "ပစ္စည်းပုံတင်ရန် (Image Upload)",
+            modalClose: "ပိတ်မည်",
+            modalSave: "သိမ်းမည်"
+        },
+        en: {
+            actTitle: "FlowPOS System",
+            actSub: "Test Code: FLOW-POS-2026",
+            actInputPlace: "Enter Activation Code",
+            actBtn: "Connect Now",
+            loginSub: "Select Shop Type & Login Account",
+            shopTypeLabel: "Shop Type",
+            staffLabel: "Staff Name",
+            codeLabel: "Login Code",
+            loginBtn: "Get Started",
+            backToActBtn: "← Back to Activation Code",
+            navPos: "POS (Sales)",
+            navProd: "Products",
+            navPur: "Purchases",
+            navDebt: "Debts",
+            navProf: "Profit & Loss",
+            navSet: "Settings",
+            navAbt: "About",
+            logoutBtn: "Logout",
+            pageTitlePos: "Point of Sale (POS) System",
+            pageTitleProd: "Product & Service Management",
+            pageTitlePur: "Purchase Records",
+            pageTitleDebt: "Debt Management",
+            pageTitleProf: "Profit & Loss Summary",
+            pageTitleSet: "Settings",
+            pageTitleAbt: "About",
+            voucherHeader: "Current Cart",
+            colName: "Name",
+            colQty: "Qty",
+            colPrice: "Amount",
+            colDel: "Del",
+            grandTotal: "Total:",
+            clearBtn: "Clear",
+            saveImgBtn: "Save Image",
+            printBtn: "Print",
+            prodMgmtTitle: "Product & Service Management",
+            addProdBtn: "Add New",
+            purchaseTitle: "Purchase Records",
+            purchaseItemPlace: "Item Name",
+            purchaseQtyPlace: "Quantity",
+            purchasePricePlace: "Total Cost (MMK)",
+            savePurchaseBtn: "Save Purchase Record",
+            debtTitle: "Debt Management",
+            debtorNamePlace: "Customer Name",
+            debtAmountPlace: "Debt Amount (MMK)",
+            debtPhonePlace: "Phone Number",
+            saveDebtBtn: "Save Debt Record",
+            profitTitle: "Profit & Loss Summary",
+            totalSalesLabel: "Total Sales Revenue",
+            totalPurchaseLabel: "Total Purchase Cost",
+            netProfitLabel: "Net Profit",
+            settingsTitle: "Settings",
+            themeHeading: "Theme Color Selection",
+            langHeading: "Language Selection",
+            shopInfoHeading: "Shop Info & Logo",
+            setShopNameLabel: "Shop Name",
+            setShopPhoneLabel: "Phone / Address",
+            setShopLogoLabel: "Upload Shop Logo",
+            saveShopInfoBtn: "Save Shop Info",
+            exchangeHeading: "Exchange Rate (MMK & THB)",
+            exchangeRateLabel: "1 Thai Baht (THB) Rate (Ks)",
+            saveExchangeBtn: "Save Rate",
+            empHeading: "Add New Employee",
+            empNamePlace: "Employee Name",
+            empRolePlace: "Role (e.g. Cashier)",
+            empPhonePlace: "Phone Number",
+            empCodePlace: "Login Code",
+            saveEmpBtn: "Add Employee",
+            modalTitle: "Add New Product",
+            modalNamePlace: "Name (e.g. Service Fee)",
+            modalPricePlace: "Price (MMK)",
+            modalStockPlace: "Stock Balance",
+            newProdImgLabel: "Upload Product Image",
+            modalClose: "Close",
+            modalSave: "Save"
+        }
+    };
+
+    function switchLanguage(lang) {
+        currentLanguage = lang;
+        let t = translations[lang];
+
+        document.getElementById('langBtnMyanmar').className = lang === 'my' ? "px-4 py-2 rounded-xl text-xs font-semibold bg-themeAccent text-white border border-themeBorder" : "px-4 py-2 rounded-xl text-xs font-semibold bg-themeCard text-themeMuted border border-themeBorder";
+        document.getElementById('langBtnEnglish').className = lang === 'en' ? "px-4 py-2 rounded-xl text-xs font-semibold bg-themeAccent text-white border border-themeBorder" : "px-4 py-2 rounded-xl text-xs font-semibold bg-themeCard text-themeMuted border border-themeBorder";
+
+        document.getElementById('txtActTitle').innerText = t.actTitle;
+        document.getElementById('txtActSub').innerHTML = `${t.actSub.split(':')[0]}: <span class="font-mono font-bold">FLOW-POS-2026</span>`;
+        document.getElementById('activationInput').placeholder = t.actInputPlace;
+        document.getElementById('txtActBtn').innerText = t.actBtn;
+
+        document.getElementById('txtLoginSub').innerText = t.loginSub;
+        document.getElementById('txtShopTypeLabel').innerText = t.shopTypeLabel;
+        document.getElementById('txtStaffLabel').innerText = t.staffLabel;
+        document.getElementById('txtCodeLabel').innerText = t.codeLabel;
+        document.getElementById('txtLoginBtn').innerText = t.loginBtn;
+        document.getElementById('txtBackToActBtn').innerText = t.backToActBtn;
+
+        document.querySelector('.nav-pos-text').innerText = t.navPos;
+        document.querySelector('.nav-prod-text').innerText = t.navProd;
+        document.querySelector('.nav-pur-text').innerText = t.navPur;
+        document.querySelector('.nav-debt-text').innerText = t.navDebt;
+        document.querySelector('.nav-prof-text').innerText = t.navProf;
+        document.querySelector('.nav-set-text').innerText = t.navSet;
+        document.querySelector('.nav-abt-text').innerText = t.navAbt;
+        document.getElementById('txtLogoutBtn').innerText = t.logoutBtn;
+
+        document.getElementById('txtVoucherHeader').innerText = t.voucherHeader;
+        document.getElementById('thColName').innerText = t.colName;
+        document.getElementById('thColQty').innerText = t.colQty;
+        document.getElementById('thColPrice').innerText = t.colPrice;
+        document.getElementById('thColDel').innerText = t.colDel;
+        document.getElementById('txtGrandTotalLabel').innerText = t.grandTotal;
+        document.getElementById('txtClearBtn').innerText = t.clearBtn;
+        document.getElementById('txtSaveImgBtn').innerHTML = `<i class="fa-solid fa-download"></i> ${t.saveImgBtn}`;
+        document.getElementById('txtPrintBtn').innerHTML = `<i class="fa-solid fa-print"></i> ${t.printBtn}`;
+
+        document.getElementById('txtProdMgmtTitle').innerText = t.prodMgmtTitle;
+        document.getElementById('txtAddProdBtn').innerHTML = `<i class="fa-solid fa-plus"></i> ${t.addProdBtn}`;
+
+        document.getElementById('txtPurchaseTitle').innerText = t.purchaseTitle;
+        document.getElementById('purchaseItem').placeholder = t.purchaseItemPlace;
+        document.getElementById('purchaseQty').placeholder = t.purchaseQtyPlace;
+        document.getElementById('purchasePrice').placeholder = t.purchasePricePlace;
+        document.getElementById('txtSavePurchaseBtn').innerText = t.savePurchaseBtn;
+
+        document.getElementById('txtDebtTitle').innerText = t.debtTitle;
+        document.getElementById('debtorName').placeholder = t.debtorNamePlace;
+        document.getElementById('debtAmount').placeholder = t.debtAmountPlace;
+        document.getElementById('debtPhone').placeholder = t.debtPhonePlace;
+        document.getElementById('txtSaveDebtBtn').innerText = t.saveDebtBtn;
+
+        document.getElementById('txtProfitTitle').innerText = t.profitTitle;
+        document.getElementById('txtTotalSalesLabel').innerText = t.totalSalesLabel;
+        document.getElementById('txtTotalPurchaseLabel').innerText = t.totalPurchaseLabel;
+        document.getElementById('txtNetProfitLabel').innerText = t.netProfitLabel;
+
+        document.getElementById('txtSettingsTitle').innerText = t.settingsTitle;
+        document.getElementById('txtThemeChangeHeading').innerHTML = `<i class="fa-solid fa-palette text-themeAccent"></i> ${t.themeHeading}`;
+        document.getElementById('txtLangChangeHeading').innerHTML = `<i class="fa-solid fa-language text-themeAccent"></i> ${t.langHeading}`;
+        document.getElementById('txtShopInfoHeading').innerHTML = `<i class="fa-solid fa-store text-themeAccent"></i> ${t.shopInfoHeading}`;
+        document.getElementById('txtSettingShopNameLabel').innerText = t.setShopNameLabel;
+        document.getElementById('txtSettingShopPhoneLabel').innerText = t.setShopPhoneLabel;
+        document.getElementById('txtSettingShopLogoLabel').innerText = t.setShopLogoLabel;
+        document.getElementById('txtSaveShopInfoBtn').innerText = t.saveShopInfoBtn;
+        document.getElementById('txtExchangeHeading').innerHTML = `<i class="fa-solid fa-money-bill-transfer text-themeAccent"></i> ${t.exchangeHeading}`;
+        document.getElementById('txtExchangeRateLabel').innerText = t.exchangeRateLabel;
+        document.getElementById('txtSaveExchangeBtn').innerText = t.saveExchangeBtn;
+        document.getElementById('txtEmpHeading').innerHTML = `<i class="fa-solid fa-users text-themeAccent"></i> ${t.empHeading}`;
+        document.getElementById('empName').placeholder = t.empNamePlace;
+        document.getElementById('empRole').placeholder = t.empRolePlace;
+        document.getElementById('empPhone').placeholder = t.empPhonePlace;
+        document.getElementById('empCode').placeholder = t.empCodePlace;
+        document.getElementById('txtSaveEmpBtn').innerText = t.saveEmpBtn;
+
+        document.getElementById('txtModalTitle').innerText = t.modalTitle;
+        document.getElementById('newProdName').placeholder = t.modalNamePlace;
+        document.getElementById('newProdPrice').placeholder = t.modalPricePlace;
+        document.getElementById('newProdStock').placeholder = t.modalStockPlace;
+        document.getElementById('txtNewProdImgLabel').innerText = t.newProdImgLabel;
+        document.getElementById('txtModalClose').innerText = t.modalClose;
+        document.getElementById('txtModalSave').innerText = t.modalSave;
+    }
+
+    function changeTheme(themeName) {
+        document.documentElement.setAttribute('data-theme', themeName);
+    }
+
+    let cart = [];
+    let currentShopItems = [];
+    let purchaseList = [];
+    let debtList = [];
+    let employeeList = [];
+    let salesHistoryList = [];
+    let totalSalesAmount = 0;
+    let totalPurchasesAmount = 0;
+    let shopNameGlobal = "FlowPOS ဆိုင်";
+    let shopPhoneGlobal = "ရန်ကုန်မြို့၊ ဖုန်း - 09123456789";
+    let loggedInUserName = "Admin";
+    let exchangeRateTHB = 125;
+    let isCreatorSession = false;
+
+    // Supabase Client Initialization Variables
+    let supabaseClient = null;
+    let savedSupabaseUrl = localStorage.getItem('flowpos_supabase_url') || "";
+    let savedSupabaseKey = localStorage.getItem('flowpos_supabase_key') || "";
+    
+    // Structured Activation Codes Storage (Creator vs Buyer)
+    let managedActivationCodes = JSON.parse(localStorage.getItem('flowpos_managed_codes') || JSON.stringify([
+        { code: 'FLOW-CREATOR-2026', type: 'creator' },
+        { code: 'FLOW-POS-2026', type: 'buyer' }
+    ]));
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (savedSupabaseUrl && savedSupabaseKey) {
+            document.getElementById('supabaseUrlInput').value = savedSupabaseUrl;
+            document.getElementById('supabaseKeyInput').value = savedSupabaseKey;
+            initSupabase(savedSupabaseUrl, savedSupabaseKey);
+        }
+        renderGeneratedCodesTable();
+    });
+
+    function initSupabase(url, key) {
+        try {
+            if (window.supabase) {
+                supabaseClient = window.supabase.createClient(url, key);
+                supabaseClient.channel('public:flowpos_sync')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'flowpos_data' }, payload => {
+                        fetchDataFromCloud();
+                    })
+                    .subscribe();
+            }
+        } catch(e) {
+            console.error("Supabase init error:", e);
+        }
+    }
+
+    function saveSupabaseConfig() {
+        let url = document.getElementById('supabaseUrlInput').value.trim();
+        let key = document.getElementById('supabaseKeyInput').value.trim();
+        if(!url || !key) { alert("Supabase URL နှင့် Key ထည့်သွင်းပါ။"); return; }
+        localStorage.setItem('flowpos_supabase_url', url);
+        localStorage.setItem('flowpos_supabase_key', key);
+        savedSupabaseUrl = url;
+        savedSupabaseKey = key;
+        initSupabase(url, key);
+        alert("Supabase ချိတ်ဆက်မှု အချက်အလက် သိမ်းဆည်းပြီးပါပြီ။");
+    }
+
+    async function syncDataToCloud() {
+        if (!supabaseClient) { alert("ကျေးဇူးပြု၍ ဆက်တင်များတွင် Supabase URL နှင့် Key အရင်ချိတ်ပါ။"); return; }
+        let payloadData = {
+            shop_name: shopNameGlobal,
+            shop_phone: shopPhoneGlobal,
+            items: currentShopItems,
+            purchases: purchaseList,
+            debts: debtList,
+            employees: employeeList,
+            sales_history: salesHistoryList,
+            total_sales: totalSalesAmount,
+            total_purchases: totalPurchasesAmount,
+            updated_at: new Date()
+        };
+        try {
+            let { error } = await supabaseClient.from('flowpos_data').upsert({ id: 1, data: payloadData });
+            if (error) {
+                alert("Sync အမှား: " + error.message);
+            } else {
+                alert("Online သို့ အောင်မြင်စွာ Sync တင်ပြီးပါပြီ။ တခြား User များပါ တခါတည်း ပေါ်လာပါမည်။");
+            }
+        } catch(err) {
+            alert("Cloud Sync Error: " + err.message);
+        }
+    }
+
+    async function fetchDataFromCloud() {
+        if (!supabaseClient) return;
+        try {
+            let { data, error } = await supabaseClient.from('flowpos_data').select('*').eq('id', 1).single();
+            if (data && data.data) {
+                let d = data.data;
+                if(d.items) currentShopItems = d.items;
+                if(d.purchases) purchaseList = d.purchases;
+                if(d.debts) debtList = d.debts;
+                if(d.employees) employeeList = d.employees;
+                if(d.sales_history) salesHistoryList = d.sales_history;
+                if(d.total_sales) totalSalesAmount = d.total_sales;
+                if(d.total_purchases) totalPurchasesAmount = d.total_purchases;
+                renderProductsGrid();
+                renderProductManagementTable();
+                renderPurchases();
+                renderDebts();
+                renderEmployees();
+                updateProfitLoss();
+            }
+        } catch(e) {
+            console.error("Fetch cloud data error:", e);
+        }
+    }
+
+    function generateAndSaveActivationCode() {
+        let code = document.getElementById('newActivationCodeInput').value.trim().toUpperCase();
+        let type = document.getElementById('newActivationTypeInput').value;
+        if(!code) { alert("Activation Code ထည့်ပါ။"); return; }
+        
+        let exists = managedActivationCodes.some(c => c.code === code);
+        if(!exists) {
+            managedActivationCodes.push({ code, type });
+            localStorage.setItem('flowpos_managed_codes', JSON.stringify(managedActivationCodes));
+            alert("Activation Code အသစ် ဖန်တီးပြီးပါပြီ။");
+            document.getElementById('newActivationCodeInput').value = "";
+            renderGeneratedCodesTable();
+        } else {
+            alert("ဤ Code မှာ ရှိနှင့်ပြီးသား ဖြစ်ပါသည်။");
+        }
+    }
+
+    function deleteActivationCode(codeVal) {
+        if(confirm(`"${codeVal}" ကို ဖျက်ရန် သေချာပါသလား?`)) {
+            managedActivationCodes = managedActivationCodes.filter(c => c.code !== codeVal);
+            localStorage.setItem('flowpos_managed_codes', JSON.stringify(managedActivationCodes));
+            renderGeneratedCodesTable();
+        }
+    }
+
+    function renderGeneratedCodesTable() {
+        let tbody = document.getElementById('generatedCodesTableBody');
+        if(!tbody) return;
+        tbody.innerHTML = "";
+        managedActivationCodes.forEach(item => {
+            let badgeClass = item.type === 'creator' ? 'bg-rose-500/20 text-rose-400 border-rose-500/30' : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
+            let typeLabel = item.type === 'creator' ? 'ဖန်တီးသူ (Creator)' : 'ဝယ်ယူသူ (Buyer)';
+            tbody.innerHTML += `
+                <tr class="border-b border-themeBorder">
+                    <td class="p-2.5 font-mono font-bold text-themeAccent">${item.code}</td>
+                    <td class="p-2.5"><span class="px-2 py-1 rounded-lg text-[10px] border ${badgeClass}">${typeLabel}</span></td>
+                    <td class="p-2.5 text-center">
+                        <button onclick="deleteActivationCode('${item.code}')" class="text-red-400 hover:text-red-300 px-2 py-1 rounded bg-themeBg border border-themeBorder"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    const shopDatabase = {
+        'money_transfer': { 
+            name: 'ငွေလွှဲ / ငွေထုတ်ဆိုင်', 
+            items: [
+                {n: 'KBZPay ငွေထုတ် (ဝန်ဆောင်ခ)', p: 500, stock: 999, img: ''}, 
+                {n: 'KBZPay ငွေလွှဲ (ဝန်ဆောင်ခ)', p: 500, stock: 999, img: ''},
+                {n: 'Wave Money ငွေထုတ် (ဝန်ဆောင်ခ)', p: 500, stock: 999, img: ''},
+                {n: 'Wave Money ငွေလွှဲ (ဝန်ဆောင်ခ)', p: 500, stock: 999, img: ''},
+                {n: 'ထိုင်းဘတ် (THB) လွှဲခ', p: 1000, stock: 999, img: ''},
+                {n: 'ငွေလဲလှယ်ရေး ဝန်ဆောင်မှု', p: 2000, stock: 999, img: ''}
+            ] 
+        },
+        'general_store': { name: 'စတိုးဆိုင်များ', items: [{n: 'သောက်ရေသူး (ဘူး)', p: 500, stock: 100, img: ''}, {n: 'ခေါင်းလျှော်ရည်', p: 5500, stock: 45, img: ''}] },
+        'grocery': { name: 'ကုန်မျိုးစုံရောင်းဝယ်ရေးဆိုင်', items: [{n: 'ဆား (ထုပ်)', p: 600, stock: 50, img: ''}, {n: 'ဆီ (ဘူး)', p: 6500, stock: 20, img: ''}] },
+        'consumer_goods': { name: 'လူသုံးကုန်ပစ္စည်းအရောင်းဆိုင်', items: [{n: 'သွားတိုက်ဆေး', p: 3500, stock: 30, img: ''}, {n: 'ဆပ်ပြာခဲ', p: 1200, stock: 60, img: ''}] },
+        'clothes': { name: 'အဝတ်အထည်ဆိုင်', items: [{n: 'တီရှပ် (လက်တို)', p: 8500, stock: 50, img: ''}, {n: 'ဂျင်းဘောင်းဘီ', p: 25000, stock: 20, img: ''}] },
+        'fashion': { name: 'ဖက်ရှင်ပစ္စည်းဆိုင်', items: [{n: 'လက်ပတ်နာရီ', p: 45000, stock: 10, img: ''}, {n: 'လက်ဝတ်ရတနာ', p: 5000, stock: 40, img: ''}] },
+        'fancy': { name: 'ဖန်စီပစ္စည်းဆိုင်', items: [{n: 'သော့ချိတ်ဒီဇိုင်း', p: 1500, stock: 100, img: ''}, {n: 'အရုပ်ငယ်', p: 8000, stock: 25, img: ''}] },
+        'cosmetics': { name: 'အလှကုန်ဆိုင်', items: [{n: 'နှုတ်ခမ်းနီ', p: 7500, stock: 35, img: ''}, {n: 'ဖောင်ဒေရှင်း', p: 14000, stock: 20, img: ''}] },
+        'shoes': { name: 'ဖိနပ်ဆိုင်', items: [{n: 'ស្បែកဖိနပ်', p: 22000, stock: 15, img: ''}, {n: 'ကပ်ကြိုးဖိနပ်', p: 9500, stock: 30, img: ''}] },
+        'glasses': { name: 'မျက်မှန်ဆိုင်', items: [{n: 'ပါဝါမျက်မှန်ဘောင်', p: 18000, stock: 20, img: ''}, {n: 'နေကာမျက်မှန်', p: 15000, stock: 15, img: ''}] },
+        'baby': { name: 'ကလေးပစ္စည်းဆိုင်', items: [{n: 'ကလေးဒိုက်ပါ', p: 12500, stock: 25, img: ''}, {n: 'နို့ဘူး', p: 6000, stock: 30, img: ''}] },
+        'sports': { name: 'အားကစားပစ္စည်းဆိုင်', items: [{n: 'ဘောလုံး', p: 25000, stock: 10, img: ''}, {n: 'အားကစားဝတ်စုံ', p: 12000, stock: 25, img: ''}] },
+        'automotive': { name: 'ယာဥ်အပိုပစ္စည်းဆိုင်', items: [{n: 'ဆိုင်ကယ်တာယာ', p: 18000, stock: 15, img: ''}, {n: 'အင်ဂျင်ဝီဆီ', p: 12000, stock: 40, img: ''}] },
+        'computer': { name: 'ကွန်ပျူတာဆိုင်', items: [{n: 'မောက်စ် (Mouse)', p: 12000, stock: 20, img: ''}, {n: 'ကီးဘုတ်', p: 18000, stock: 15, img: ''}] },
+        'mobile': { name: 'မိုဘိုင်းဖုန်းဆိုင်', items: [{n: 'Screen Protector', p: 5000, stock: 50, img: ''}, {n: 'ឆာဂျာကြိုး', p: 6000, stock: 40, img: ''}] },
+        'electronics': { name: 'လျှပ်စစ်ပစ္စည်းဆိုင်', items: [{n: 'LED မီးသီး', p: 3500, stock: 60, img: ''}, {n: 'Extension ခလုတ်ခုံ', p: 8500, stock: 25, img: ''}] },
+        'hardware': { name: 'အိမ်ဆောက်ပစ္စည်းဆိုင်', items: [{n: 'သံသုတ်ဗူး', p: 2500, stock: 100, img: ''}, {n: 'ဝါယာကြိုး (မီတာ)', p: 1200, stock: 200, img: ''}] },
+        'home_decor': { name: 'အိမ်အလှဆင်ဆိုင်', items: [{n: 'နံရံကပ်စတစ်ကာ', p: 4500, stock: 30, img: ''}, {n: 'ပန်းအိုးအလှ', p: 12000, stock: 12, img: ''}] },
+        'furniture': { name: 'ပရိဘောဂဆိုင်', items: [{n: 'ထိုင်ခုံပလတ်စတစ်', p: 8500, stock: 30, img: ''}, {n: 'စားပွဲငယ်', p: 45000, stock: 8, img: ''}] },
+        'stationery': { name: 'စာရေးကိရိယာဆိုင်', items: [{n: 'ဘောပင်', p: 400, stock: 200, img: ''}, {n: 'စာအုပ်', p: 1500, stock: 100, img: ''}] },
+        'company': { name: 'Company & Office', items: [{n: 'A4 စက္ကူ', p: 14500, stock: 30, img: ''}, {n: 'ဖိုင်တွဲ', p: 1500, stock: 80, img: ''}] },
+        'school': { name: 'School & Training Center', items: [{n: 'သင်တန်းကြေး (လစဉ်)', p: 50000, stock: 999, img: ''}] },
+        'organization': { name: 'Organization', items: [{n: 'အဖွဲ့ဝင်ကြေး', p: 10000, stock: 999, img: ''}] },
+        'other': { name: 'Other', items: [{n: 'ဝန်ဆောင်မှု', p: 10000, stock: 999, img: ''}] }
+    };
+
+    function formatBothCurrency(mmkAmount) {
+        let thbAmount = mmkAmount / exchangeRateTHB;
+        return `
+            <div class="leading-tight">
+                <span class="font-semibold">${mmkAmount.toLocaleString()} Ks</span>
+                <span class="text-[10px] opacity-70 block">${thbAmount.toFixed(2)} THB</span>
+            </div>
+        `;
+    }
+
+    function checkActivation() {
+        let inputCode = document.getElementById('activationInput').value.trim().toUpperCase();
+        let matched = managedActivationCodes.find(c => c.code === inputCode);
+        
+        if (matched) {
+            isCreatorSession = (matched.type === 'creator');
+            document.getElementById('activationScreen').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        } else {
+            document.getElementById('activationError').classList.remove('hidden');
+        }
+    }
+
+    function returnToActivation() {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('activationInput').value = "";
+        document.getElementById('activationError').classList.add('hidden');
+        document.getElementById('activationScreen').classList.remove('hidden');
+    }
+
+    function onUserSelectChange() {
+        document.getElementById('loginUser').value = document.getElementById('loginUserSelect').value;
+    }
+
+    function checkLogin() {
+        let uName = document.getElementById('loginUser').value.trim();
+        let uPass = document.getElementById('loginPass').value.trim();
+        let isValid = false;
+        let isAdminLogin = false;
+
+        if (uName === "admin" && uPass === "12345") {
+            isValid = true;
+            isAdminLogin = true;
+            loggedInUserName = "Admin";
+        } else {
+            let matchedEmp = employeeList.find(e => e.name === uName && e.code === uPass);
+            if (matchedEmp) {
+                isValid = true;
+                loggedInUserName = matchedEmp.name + " (" + matchedEmp.role + ")";
+            }
+        }
+
+        if (isValid) {
+            // Creator section visibility restricted strictly to Creator Activation Code AND Admin login
+            let creatorSection = document.getElementById('creatorOnlySettingsSection');
+            if (isCreatorSession && isAdminLogin) {
+                creatorSection.classList.remove('hidden');
+            } else {
+                creatorSection.classList.add('hidden');
+            }
+
+            let shopKey = document.getElementById('shopTypeSelect').value;
+            currentShopItems = JSON.parse(JSON.stringify(shopDatabase[shopKey].items));
+            shopNameGlobal = shopDatabase[shopKey].name;
+
+            document.getElementById('sidebarShopName').innerText = shopNameGlobal;
+            document.getElementById('currentLoginUserLabel').innerText = loggedInUserName;
+            document.getElementById('headerShopBadge').innerText = shopNameGlobal;
+            document.getElementById('voucherShopName').innerText = shopNameGlobal;
+            document.getElementById('voucherShopPhone').innerText = shopPhoneGlobal;
+            document.getElementById('productSectionTitle').innerText = shopNameGlobal + (currentLanguage === 'my' ? " - ရွေးချယ်ရန်" : " - Items");
+            document.getElementById('settingShopName').value = shopNameGlobal;
+
+            renderPOSMainArea(shopKey);
+            renderProductManagementTable();
+            renderPurchases();
+            renderDebts();
+            renderEmployees();
+            updateProfitLoss();
+
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            
+            fetchDataFromCloud();
+        } else {
+            document.getElementById('loginError').classList.remove('hidden');
+        }
+    }
+
+    function logout() {
+        document.getElementById('mainDashboard').classList.add('hidden');
+        document.getElementById('loginScreen').classList.remove('hidden');
+        cart = [];
+        updateCartUI();
+    }
+
+    function renderPOSMainArea(shopKey) {
+        let area = document.getElementById('posMainArea');
+        area.innerHTML = "";
+
+        if (shopKey === 'money_transfer') {
+            area.innerHTML = `
+                <div class="bg-themeBg border border-themeBorder p-4 rounded-xl space-y-3 mb-4">
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="selectTransferProvider('Kpay')" id="provider-Kpay" class="provider-btn py-2 px-3 text-xs font-semibold rounded-xl border border-themeBorder bg-themeAccent text-white transition text-center">Kpay</button>
+                        <button type="button" onclick="selectTransferProvider('Wave Money')" id="provider-Wave-Money" class="provider-btn py-2 px-3 text-xs font-semibold rounded-xl border border-themeBorder bg-themeCard text-themeMuted transition text-center">Wave</button>
+                        <button type="button" onclick="selectTransferProvider('Thai Bank')" id="provider-Thai-Bank" class="provider-btn py-2 px-3 text-xs font-semibold rounded-xl border border-themeBorder bg-themeCard text-themeMuted transition text-center">Thai Bank</button>
+                    </div>
+                    <input type="hidden" id="selectedProvider" value="Kpay">
+
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="selectTransferType('ငွေလွှဲ')" id="transType-ငွေလွှဲ" class="trans-type-btn py-2 px-2 text-xs font-semibold rounded-xl border border-themeBorder bg-themeAccent text-white transition text-center">ငွေလွှဲ</button>
+                        <button type="button" onclick="selectTransferType('ငွေထုတ်')" id="transType-ငွေထုတ်" class="trans-type-btn py-2 px-2 text-xs font-semibold rounded-xl border border-themeBorder bg-themeCard text-themeMuted transition text-center">ငွေထုတ်</button>
+                        <button type="button" onclick="selectTransferType('ငွေလဲ')" id="transType-ငွေလဲ" class="trans-type-btn py-2 px-2 text-xs font-semibold rounded-xl border border-themeBorder bg-themeCard text-themeMuted transition text-center">ငွေလဲ</button>
+                    </div>
+                    <input type="hidden" id="selectedTransType" value="ငွေလွှဲ">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="number" id="customTransAmount" placeholder="ငွေပမာဏ (ဥပမာ - 100000)" class="w-full bg-themeCard border border-themeBorder rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-themeAccent">
+                        <input type="number" id="customTransFee" placeholder="ဝန်ဆောင်ခ (ကျပ်)" class="w-full bg-themeCard border border-themeBorder rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-themeAccent">
+                    </div>
+                    <button onclick="addCustomMoneyTransaction()" class="w-full bg-themeAccent hover:bg-themeAccentHover text-white py-2.5 rounded-xl text-xs font-semibold transition">${currentLanguage === 'my' ? 'ဘောက်ချာသို့ ထည့်မည်' : 'Add to Cart'}</button>
+                </div>
+                <div id="dynamicProductsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+            `;
+            renderProductsGrid();
+        } else {
+            area.innerHTML = `<div id="dynamicProductsGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>`;
+            renderProductsGrid();
+        }
+    }
+
+    function selectTransferProvider(providerName) {
+        document.getElementById('selectedProvider').value = providerName;
+        document.querySelectorAll('.provider-btn').forEach(btn => {
+            if (btn.innerText.includes(providerName.substring(0,4))) {
+                btn.className = "provider-btn py-2 px-3 text-xs font-semibold rounded-xl border border-themeBorder bg-themeAccent text-white transition text-center";
+            } else {
+                btn.className = "provider-btn py-2 px-3 text-xs font-semibold rounded-xl border border-themeBorder bg-themeCard text-themeMuted transition text-center";
+            }
+        });
+    }
+
+    function selectTransferType(typeStr) {
+        document.getElementById('selectedTransType').value = typeStr;
+        document.querySelectorAll('.trans-type-btn').forEach(btn => {
+            if (btn.innerText.trim() === typeStr) {
+                btn.className = "trans-type-btn py-2 px-2 text-xs font-semibold rounded-xl border border-themeBorder bg-themeAccent text-white transition text-center";
+            } else {
+                btn.className = "trans-type-btn py-2 px-2 text-xs font-semibold rounded-xl border border-themeBorder bg-themeCard text-themeMuted transition text-center";
+            }
+        });
+    }
+
+    function addCustomMoneyTransaction() {
+        let provider = document.getElementById('selectedProvider').value;
+        let transType = document.getElementById('selectedTransType').value;
+        let amount = parseFloat(document.getElementById('customTransAmount').value) || 0;
+        let fee = parseFloat(document.getElementById('customTransFee').value);
+
+        if (isNaN(fee)) { alert(currentLanguage === 'my' ? "ဝန်ဆောင်ခ ထည့်သွင်းပါ။" : "Please enter fee."); return; }
+        let itemName = `${provider} (${transType})${amount >0 ? ' ['+amount.toLocaleString()+']':''}`;
+        addToCart(itemName, fee);
+        document.getElementById('customTransAmount').value = "";
+        document.getElementById('customTransFee').value = "";
+    }
+
+    function renderProductsGrid() {
+        let grid = document.getElementById('dynamicProductsGrid');
+        if(!grid) return;
+        grid.innerHTML = "";
+        currentShopItems.forEach((item, index) => {
+            let thbPrice = (item.p / exchangeRateTHB).toFixed(2);
+            let stockLabel = currentLanguage === 'my' ? 'လက်ကျန်: ' : 'Stock: ';
+            let imgHTML = item.img ? `<img src="${item.img}" class="w-full h-20 object-cover rounded-lg mb-2 border border-themeBorder">` : '';
+            grid.innerHTML += `
+                <div class="bg-themeBg border border-themeBorder p-3.5 rounded-xl transition shadow-sm flex flex-col justify-between">
+                    <div onclick="addToCartByName('${item.n}', ${item.p})" class="cursor-pointer">
+                        ${imgHTML}
+                        <p class="font-medium text-xs truncate">${item.n}</p>
+                        <p class="text-[10px] text-themeAccent mt-0.5 font-semibold">${stockLabel}${item.stock}</p>
+                    </div>
+                    <div class="mt-2 flex items-center justify-between border-t border-themeBorder pt-2">
+                        <div>
+                            <span class="text-themeAccent font-bold text-xs block">${item.p.toLocaleString()} Ks</span>
+                            <span class="text-[10px] opacity-70">${thbPrice} THB</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <button onclick="adjustStock(${index}, -1)" class="w-6 h-6 bg-themeCard border border-themeBorder rounded-lg text-xs flex items-center justify-center hover:bg-themeBorder">-</button>
+                            <button onclick="adjustStock(${index}, 1)" class="w-6 h-6 bg-themeCard border border-themeBorder rounded-lg text-xs flex items-center justify-center hover:bg-themeBorder">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function adjustStock(index, amount) {
+        currentShopItems[index].stock = Math.max(0, currentShopItems[index].stock + amount);
+        renderProductsGrid();
+        renderProductManagementTable();
+    }
+
+    function renderProductManagementTable() {
+        let container = document.getElementById('productManagementContent');
+        let noHeader = currentLanguage === 'my' ? 'စဉ်' : 'No';
+        let imgHeader = currentLanguage === 'my' ? 'ပုံ' : 'Image';
+        let nameHeader = currentLanguage === 'my' ? 'အမည်' : 'Name';
+        let stockHeader = currentLanguage === 'my' ? 'လက်ကျန် စတော့' : 'Stock Balance';
+        let priceHeader = currentLanguage === 'my' ? 'နှုန်းထား' : 'Price';
+
+        let tableHTML = `<table class="w-full text-left border-collapse"><tr class="border-b border-themeBorder text-themeMuted"><th class="p-2.5">${noHeader}</th><th class="p-2.5">${imgHeader}</th><th class="p-2.5">${nameHeader}</th><th class="p-2.5">${stockHeader}</th><th class="p-2.5">${priceHeader}</th></tr><tbody class="divide-y divide-themeBorder">`;
+        currentShopItems.forEach((item, idx) => {
+            let imgTag = item.img ? `<img src="${item.img}" class="w-10 h-10 object-cover rounded-lg border border-themeBorder">` : `<span class="text-[10px] text-themeMuted">No Image</span>`;
+            tableHTML += `<tr>
+                <td class="p-2.5">${idx + 1}</td>
+                <td class="p-2.5">${imgTag}</td>
+                <td class="p-2.5 font-medium">${item.n}</td>
+                <td class="p-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="text-themeAccent font-bold">${item.stock}</span>
+                        <div class="flex items-center gap-1">
+                            <button onclick="adjustStock(${idx}, -1)" class="px-2 py-0.5 bg-themeBg border border-themeBorder rounded text-[10px]">-</button>
+                            <button onclick="adjustStock(${idx}, 1)" class="px-2 py-0.5 bg-themeBg border border-themeBorder rounded text-[10px]">+</button>
+                        </div>
+                    </div>
+                </td>
+                <td class="p-2.5">${formatBothCurrency(item.p)}</td>
+            </tr>`;
+        });
+        tableHTML += `</tbody></table>`;
+        container.innerHTML = tableHTML;
+    }
+
+    function openAddProductModal() { document.getElementById('addProductModal').classList.remove('hidden'); }
+    function closeAddProductModal() { document.getElementById('addProductModal').classList.add('hidden'); }
+
+    function saveNewProduct() {
+        let name = document.getElementById('newProdName').value.trim();
+        let price = parseFloat(document.getElementById('newProdPrice').value);
+        let stock = parseInt(document.getElementById('newProdStock').value);
+        let fileInput = document.getElementById('newProdImg');
+        
+        if (!name || isNaN(price) || isNaN(stock)) { alert(currentLanguage === 'my' ? "အချက်အလက် အပြည့်အစုံထည့်ပါ။" : "Please fill all details."); return; }
+
+        if (fileInput.files && fileInput.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                currentShopItems.push({ n: name, p: price, stock: stock, img: e.target.result });
+                finalizeNewProductAddition();
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            currentShopItems.push({ n: name, p: price, stock: stock, img: '' });
+            finalizeNewProductAddition();
+        }
+    }
+
+    function finalizeNewProductAddition() {
+        renderProductsGrid();
+        renderProductManagementTable();
+        closeAddProductModal();
+        document.getElementById('newProdName').value = "";
+        document.getElementById('newProdPrice').value = "";
+        document.getElementById('newProdStock').value = "";
+        document.getElementById('newProdImg').value = "";
+    }
+
+    function addPurchase() {
+        let item = document.getElementById('purchaseItem').value.trim();
+        let qty = document.getElementById('purchaseQty').value;
+        let price = parseFloat(document.getElementById('purchasePrice').value);
+        if(!item || !qty || isNaN(price)) { alert(currentLanguage === 'my' ? "အချက်အလက်အပြည့်အစုံထည့်ပါ။" : "Please fill all fields."); return; }
+        
+        let purchaseDate = new Date().toLocaleDateString();
+        purchaseList.push({ item, qty, price, date: purchaseDate });
+        totalPurchasesAmount += price;
+        renderPurchases();
+        updateProfitLoss();
+        document.getElementById('purchaseItem').value = "";
+        document.getElementById('purchaseQty').value = "";
+        document.getElementById('purchasePrice').value = "";
+    }
+
+    function renderPurchases() {
+        let container = document.getElementById('purchaseListContainer');
+        if(purchaseList.length === 0) { container.innerHTML = `<p class="text-xs text-themeMuted">${currentLanguage === 'my' ? 'အဝယ်စာရင်း မရှိသေးပါ။' : 'No purchase records.'}</p>`; return; }
+        let dateH = currentLanguage === 'my' ? 'ရက်စွဲ' : 'Date';
+        let itemH = currentLanguage === 'my' ? 'အကြောင်းအရာ' : 'Item';
+        let qtyH = currentLanguage === 'my' ? 'ခုရေ' : 'Qty';
+        let amtH = currentLanguage === 'my' ? 'သင့်ငွေ' : 'Amount';
+        let html = `<table class="w-full text-left text-xs border border-themeBorder rounded-xl overflow-hidden"><tr class="bg-themeBg border-b border-themeBorder"><th class="p-2.5">${dateH}</th><th class="p-2.5">${itemH}</th><th class="p-2.5">${qtyH}</th><th class="p-2.5">${amtH}</th></tr>`;
+        purchaseList.forEach(p => { html += `<tr class="border-b border-themeBorder"><td class="p-2.5 text-themeMuted">${p.date || '-'}</td><td class="p-2.5 font-medium">${p.item}</td><td class="p-2.5">${p.qty}</td><td class="p-2.5">${formatBothCurrency(p.price)}</td></tr>`; });
+        container.innerHTML = html + `</table>`;
+    }
+
+    function addDebt() {
+        let name = document.getElementById('debtorName').value.trim();
+        let amount = parseFloat(document.getElementById('debtAmount').value);
+        let phone = document.getElementById('debtPhone').value.trim();
+        if(!name || isNaN(amount)) { alert(currentLanguage === 'my' ? "အချက်အလက်အပြည့်အစုံထည့်ပါ။" : "Please fill all fields."); return; }
+        debtList.push({ name, amount, phone });
+        renderDebts();
+        document.getElementById('debtorName').value = "";
+        document.getElementById('debtAmount').value = "";
+        document.getElementById('debtPhone').value = "";
+    }
+
+    function renderDebts() {
+        let container = document.getElementById('debtListContainer');
+        if(debtList.length === 0) { container.innerHTML = `<p class="text-xs text-themeMuted">${currentLanguage === 'my' ? 'အကြွေးစာရင်း မရှိသေးပါ။' : 'No debt records.'}</p>`; return; }
+        let nameH = currentLanguage === 'my' ? 'ဖောက်သည်' : 'Customer';
+        let phoneH = currentLanguage === 'my' ? 'ဖုန်း' : 'Phone';
+        let amtH = currentLanguage === 'my' ? 'အကြွေးပမာဏ' : 'Amount';
+        let html = `<table class="w-full text-left text-xs border border-themeBorder rounded-xl overflow-hidden"><tr class="bg-themeBg border-b border-themeBorder"><th class="p-2.5">${nameH}</th><th class="p-2.5">${phoneH}</th><th class="p-2.5">${amtH}</th></tr>`;
+        debtList.forEach(d => { html += `<tr class="border-b border-themeBorder"><td class="p-2.5 font-medium">${d.name}</td><td class="p-2.5">${d.phone}</td><td class="p-2.5">${formatBothCurrency(d.amount)}</td></tr>`; });
+        container.innerHTML = html + `</table>`;
+    }
+
+    function saveShopInfo() {
+        shopNameGlobal = document.getElementById('settingShopName').value.trim() || "FlowPOS ဆိုင်";
+        shopPhoneGlobal = document.getElementById('settingShopPhone').value.trim() || shopPhoneGlobal;
+        document.getElementById('sidebarShopName').innerText = shopNameGlobal;
+        document.getElementById('headerShopBadge').innerText = shopNameGlobal;
+        document.getElementById('voucherShopName').innerText = shopNameGlobal;
+        document.getElementById('voucherShopPhone').innerText = shopPhoneGlobal;
+
+        let fileInput = document.getElementById('settingShopLogo');
+        if (fileInput.files && fileInput.files[0]) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let logoImg = document.getElementById('voucherLogoImg');
+                logoImg.src = e.target.result;
+                logoImg.classList.remove('hidden');
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+        alert(currentLanguage === 'my' ? "သိမ်းဆည်းပြီးပါပြီ။" : "Successfully saved.");
+    }
+
+    function saveExchangeRate() {
+        let thbVal = parseFloat(document.getElementById('rateTHB').value);
+        if (!isNaN(thbVal) && thbVal > 0) {
+            exchangeRateTHB = thbVal;
+            renderProductsGrid();
+            renderProductManagementTable();
+            updateCartUI();
+            updateProfitLoss();
+            alert(currentLanguage === 'my' ? "ငွေလဲလှယ်နှုန်း သိမ်းဆည်းပြီးပါပြီ။" : "Exchange rate saved.");
+        }
+    }
+
+    function addEmployee() {
+        let name = document.getElementById('empName').value.trim();
+        let role = document.getElementById('empRole').value.trim();
+        let phone = document.getElementById('empPhone').value.trim();
+        let code = document.getElementById('empCode').value.trim();
+        if(!name || !role || !code) { alert(currentLanguage === 'my' ? "အချက်အလက်အပြည့်အစုံထည့်ပါ။" : "Please fill all fields."); return; }
+        employeeList.push({ name, role, phone, code });
+        renderEmployees();
+        updateLoginUserDropdown();
+        document.getElementById('empName').value = "";
+        document.getElementById('empRole').value = "";
+        document.getElementById('empPhone').value = "";
+        document.getElementById('empCode').value = "";
+    }
+
+    function renderEmployees() {
+        let container = document.getElementById('employeeListContainer');
+        if(employeeList.length === 0) { container.innerHTML = `<p class="text-xs text-themeMuted mt-2">${currentLanguage === 'my' ? 'ဝန်ထမ်းစာရင်း မရှိသေးပါ။' : 'No employee records.'}</p>`; return; }
+        let nameH = currentLanguage === 'my' ? 'အမည်' : 'Name';
+        let roleH = currentLanguage === 'my' ? 'ရာထူး' : 'Role';
+        let phoneH = currentLanguage === 'my' ? 'ဖုန်း' : 'Phone';
+        let html = `<table class="w-full text-left text-xs border border-themeBorder rounded-xl mt-2"><tr class="bg-themeBg border-b border-themeBorder"><th class="p-2.5">${nameH}</th><th class="p-2.5">${roleH}</th><th class="p-2.5">${phoneH}</th><th class="p-2.5">Code</th></tr>`;
+        employeeList.forEach(e => { html += `<tr class="border-b border-themeBorder"><td class="p-2.5 font-medium">${e.name}</td><td class="p-2.5">${e.role}</td><td class="p-2.5">${e.phone}</td><td class="p-2.5 font-mono font-bold text-themeAccent">${e.code}</td></tr>`; });
+        container.innerHTML = html + `</table>`;
+    }
+
+    function updateLoginUserDropdown() {
+        let select = document.getElementById('loginUserSelect');
+        select.innerHTML = `<option value="admin">Admin (ပင်မအကောင့်)</option>`;
+        employeeList.forEach(e => { select.innerHTML += `<option value="${e.name}">${e.name} (${e.role})</option>`; });
+    }
+
+    function switchTab(tabName) {
+        const tabs = ['pos', 'products', 'purchases', 'debts', 'profit', 'settings', 'about'];
+        let tObj = translations[currentLanguage];
+        const titles = {
+            'pos': tObj.pageTitlePos,
+            'products': tObj.pageTitleProd,
+            'purchases': tObj.pageTitlePur,
+            'debts': tObj.pageTitleDebt,
+            'profit': tObj.pageTitleProf,
+            'settings': tObj.pageTitleSet,
+            'about': tObj.pageTitleAbt
+        };
+
+        tabs.forEach(t => {
+            document.getElementById('tab-' + t).classList.add('hidden');
+        });
+
+        document.getElementById('tab-' + tabName).classList.remove('hidden');
+        document.getElementById('pageTitle').innerText = titles[tabName];
+        if(tabName === 'profit') {
+            updateProfitLoss();
+        }
+    }
+
+    function addToCart(name, price) {
+        let item = cart.find(i => i.name === name);
+        if (item) item.qty += 1;
+        else cart.push({ name, price, qty: 1 });
+        updateCartUI();
+    }
+
+    function addToCartByName(name, price) {
+        let prod = currentShopItems.find(p => p.n === name);
+        if (prod) {
+            if (prod.stock > 0 || prod.stock === 999) {
+                if (prod.stock !== 999) {
+                    prod.stock -= 1;
+                }
+                addToCart(name, price);
+                renderProductsGrid();
+                renderProductManagementTable();
+            } else {
+                alert(currentLanguage === 'my' ? "စတော့ လက်ကျန် မရှိတော့ပါ။" : "Out of stock.");
+            }
+        } else {
+            addToCart(name, price);
+        }
+    }
+
+    function removeFromCart(index) { 
+        let removedItem = cart[index];
+        let prod = currentShopItems.find(p => p.n === removedItem.name);
+        if (prod && prod.stock !== 999) {
+            prod.stock += removedItem.qty;
+        }
+        cart.splice(index, 1); 
+        updateCartUI();
+        renderProductsGrid();
+        renderProductManagementTable();
+    }
+
+    function clearCart() { 
+        cart.forEach(item => {
+            let prod = currentShopItems.find(p => p.n === item.name);
+            if (prod && prod.stock !== 999) {
+                prod.stock += item.qty;
+            }
+        });
+        cart = []; 
+        updateCartUI();
+        renderProductsGrid();
+        renderProductManagementTable();
+    }
+
+    function updateCartUI() {
+        let tbody = document.getElementById('cartTableBody');
+        let grandTotalMMKElem = document.getElementById('grandTotalMMK');
+        let grandTotalTHBElem = document.getElementById('grandTotalTHB');
+        
+        tbody.innerHTML = "";
+        if (cart.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-themeMuted">${currentLanguage === 'my' ? 'ပစ္စည်းများ မရွေးရသေးပါ' : 'No items selected'}</td></tr>`;
+            grandTotalMMKElem.innerText = "0 Ks";
+            grandTotalTHBElem.innerText = "0 THB";
+            return;
+        }
+
+        let totalMMK = 0;
+        cart.forEach((item, index) => {
+            let itemTotal = item.price * item.qty;
+            totalMMK += itemTotal;
+            tbody.innerHTML += `<tr><td class="p-2 font-medium">${item.name}</td><td class="p-2 text-center">${item.qty}</td><td class="p-2 text-right">${formatBothCurrency(itemTotal)}</td><td class="p-2 text-center no-print"><button onclick="removeFromCart(${index})" class="text-red-400"><i class="fa-solid fa-trash"></i></button></td></tr>`;
+        });
+
+        grandTotalMMKElem.innerText = totalMMK.toLocaleString() + " Ks";
+        grandTotalTHBElem.innerText = (totalMMK / exchangeRateTHB).toFixed(2) + " THB";
+    }
+
+    function saveVoucherImage() {
+        if (cart.length === 0) { alert(currentLanguage === 'my' ? "ဘောက်ချာတွင် ပစ္စည်းထည့်ပါ။" : "Cart is empty."); return; }
+        html2canvas(document.getElementById('printableVoucherSection'), { scale: 2 }).then(canvas => {
+            let link = document.createElement('a');
+            link.download = 'FlowPOS_' + Date.now() + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            let sessionTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            totalSalesAmount += sessionTotal;
+            
+            let saleDateStr = new Date().toLocaleString();
+            cart.forEach(cartItem => {
+                salesHistoryList.push({
+                    date: saleDateStr,
+                    item: cartItem.name,
+                    qty: cartItem.qty,
+                    price: cartItem.price * cartItem.qty,
+                    cashier: loggedInUserName
+                });
+            });
+
+            updateProfitLoss();
+            cart = [];
+            updateCartUI();
+            renderProductsGrid();
+            renderProductManagementTable();
+        });
+    }
+
+    function printVoucher() {
+        if (cart.length === 0) { alert(currentLanguage === 'my' ? "ဘောက်ချာတွင် ပစ္စည်းထည့်ပါ။" : "Cart is empty."); return; }
+        
+        let sessionTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        totalSalesAmount += sessionTotal;
+        
+        let saleDateStr = new Date().toLocaleString();
+        cart.forEach(cartItem => {
+            salesHistoryList.push({
+                date: saleDateStr,
+                item: cartItem.name,
+                qty: cartItem.qty,
+                price: cartItem.price * cartItem.qty,
+                cashier: loggedInUserName
+            });
+        });
+
+        let printContents = document.getElementById('printableVoucherSection').innerHTML;
+        let originalContents = document.body.innerHTML;
+        document.body.innerHTML = `<div style="padding: 20px;">${printContents}</div>`;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();
+    }
+
+    function submitQA() {
+        let qaText = document.getElementById('qaInput').value.trim();
+        if (!qaText) {
+            alert(currentLanguage === 'my' ? "ကျေးဇူးပြု၍ မေးခွန်း သို့မဟုတ် အကြံပြုချက်ကို ရေးပါ။" : "Please enter your question or feedback.");
+            return;
+        }
+        let viberNumber = "09754401003";
+        let encodedMessage = encodeURIComponent("FlowPOS Q&A မေးခွန်း/အကြံပြုချက်:\n" + qaText);
+        
+        window.open(`viber://chat?number=%2B95${viberNumber.replace(/^0/, '')}&text=${encodedMessage}`, '_blank');
+        document.getElementById('qaInput').value = "";
+    }
+
+    function updateProfitLoss() {
+        let netProfit = totalSalesAmount - totalPurchasesAmount;
+        document.getElementById('profitTotalSalesMMK').innerText = totalSalesAmount.toLocaleString() + " Ks";
+        document.getElementById('profitTotalSalesTHB').innerText = (totalSalesAmount / exchangeRateTHB).toFixed(2) + " THB";
+        document.getElementById('profitTotalPurchasesMMK').innerText = totalPurchasesAmount.toLocaleString() + " Ks";
+        document.getElementById('profitTotalPurchasesTHB').innerText = (totalPurchasesAmount / exchangeRateTHB).toFixed(2) + " THB";
+        document.getElementById('netProfitValMMK').innerText = netProfit.toLocaleString() + " Ks";
+        document.getElementById('netProfitValTHB').innerText = (netProfit / exchangeRateTHB).toFixed(2) + " THB";
+
+        // Render Detailed Sales Table
+        let salesContainer = document.getElementById('detailedSalesTableContainer');
+        if (salesHistoryList.length === 0) {
+            salesContainer.innerHTML = `<p class="text-xs text-themeMuted">${currentLanguage === 'my' ? 'အရောင်း မှတ်တမ်း မရှိသေးပါ။' : 'No sales records.'}</p>`;
+        } else {
+            let sHtml = `<table class="w-full text-left border border-themeBorder rounded-xl overflow-hidden"><tr class="bg-themeBg border-b border-themeBorder"><th class="p-2">ရက်စွဲ</th><th class="p-2">ပစ္စည်း</th><th class="p-2 text-center">ခုရေ</th><th class="p-2">သင့်ငွေ</th></tr>`;
+            salesHistoryList.forEach(s => {
+                sHtml += `<tr class="border-b border-themeBorder"><td class="p-2 text-themeMuted">${s.date}</td><td class="p-2 font-medium">${s.item}</td><td class="p-2 text-center">${s.qty}</td><td class="p-2">${formatBothCurrency(s.price)}</td></tr>`;
+            });
+            salesContainer.innerHTML = sHtml + `</table>`;
+        }
+
+        // Render Detailed Purchases Table
+        let purContainer = document.getElementById('detailedPurchasesTableContainer');
+        if (purchaseList.length === 0) {
+            purContainer.innerHTML = `<p class="text-xs text-themeMuted">${currentLanguage === 'my' ? 'အဝယ် မှတ်တမ်း မရှိသေးပါ။' : 'No purchase records.'}</p>`;
+        } else {
+            let pHtml = `<table class="w-full text-left border border-themeBorder rounded-xl overflow-hidden"><tr class="bg-themeBg border-b border-themeBorder"><th class="p-2">ရက်စွဲ</th><th class="p-2">အကြောင်းအရာ</th><th class="p-2 text-center">ခုရေ</th><th class="p-2">စရိတ်ငွေ</th></tr>`;
+            purchaseList.forEach(p => {
+                pHtml += `<tr class="border-b border-themeBorder"><td class="p-2 text-themeMuted">${p.date || '-'}</td><td class="p-2 font-medium">${p.item}</td><td class="p-2 text-center">${p.qty}</td><td class="p-2">${formatBothCurrency(p.price)}</td></tr>`;
+            });
+            purContainer.innerHTML = pHtml + `</table>`;
+        }
+    }
+</script>
+
+```
